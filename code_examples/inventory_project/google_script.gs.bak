@@ -1,16 +1,3 @@
-/*
-// 
-// Ray Voelker
-// University of Dayton Libraries
-// 300 College Park Dayton, OH 45419-1360
-// rvoelker1@udayton.edu
-// ray.voelker@gmail.com
-//  If you have any questions or comments 
-//  about this script, page or feature, please
-//  feel free to contact me.
-//
-*/
-
 /* 
 This is a Google Apps Script intended to be used in conjunction with a RESTful API (item_barcode.php)
 To use this script:

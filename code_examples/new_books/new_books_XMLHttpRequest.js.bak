@@ -11,6 +11,7 @@
 //
 */
 
+
 var api_base_url = 'http://library2.udayton.edu/api/newbooks.php?',
 	json_data;
 

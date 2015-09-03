@@ -1,4 +1,17 @@
 <?php
+/*
+// 
+// Ray Voelker
+// University of Dayton Libraries
+// 300 College Park Dayton, OH 45419-1360
+// rvoelker1@udayton.edu
+// ray.voelker@gmail.com
+//  If you have any questions or comments 
+//  about this page or feature, please
+//  feel free to contact me.
+//
+*/
+
 //replace all the non alphanumeric characters from the callback function name
 if(isset( $_GET['callback'] )) {
 	$callback = preg_replace("/[^a-zA-Z0-9\s]/", "", $_GET['callback']);
