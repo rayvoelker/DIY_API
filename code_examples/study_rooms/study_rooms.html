@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="UTF-8">
+	<title>Available Study Rooms</title>
+	<style>
+		table { color: #333; font-family: Helvetica, Arial, sans-serif; border-collapse: collapse; border-spacing: 0; }
+		td, th { border: 1px solid #CCC; height: 30px; padding: 10px; }
+		th { background: #F3F3F3; font-weight: bold; }
+		td { background: #FAFAFA; }
+	</style>
+	<script src="./study_rooms.js"></script>
+	</head>
+	
+	<body>
+		<h1>University of Dayton Roesch Library</h1>
+
+		<h3>Available Study Rooms</h3>
+		<div>
+			<button type="button" id="refresh">refresh</button>
+			<span id="load_time"></span>
+		</div>
+		
+		<br />
+		
+		<table id="output_table">
+			<thead>
+				<tr>
+					<th>Room</th>
+					<th>Available?</th>
+					<th>Due Date</th>
+				</tr>
+			</thead>
+			
+			<tbody></tbody>
+		</table>
+		
+	<script src="http://library2.udayton.edu/api/study_rooms.php?callback=studyrooms"></script>
+	<script>
+		var button = document.getElementById('refresh');
+		button.addEventListener("click", function(){
+			var body = document.getElementsByTagName('body')[0];
+			var script = document.createElement('script');
+			script.setAttribute('src','http://library2.udayton.edu/api/study_rooms.php?' + 
+				'&callback=studyrooms'
+			);
+			body.appendChild(script);
+		}, false);
+	</script>
+	
+	</body>
+</html>

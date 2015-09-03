@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>DIY APIs</title>
+
+		<meta name="description" content="A Do-It-Yourself Approach To Creating Custom Read-Only APIs using Sierra SQL and PHP">
+		<meta name="author" content="Ray Voelker">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<img alt="University of Dayton" style="
+		border:0;
+		background:rgba(255,255,255,0.6);
+		padding: 5px 5px 5px 5px;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		z-index:1000;
+		width: 150px
+		" src="./img/ud_word_mark.svg">
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+			
+			
+				<!-- section -->
+				<!-- SLIDE 1 -->
+				<section data-background = "./img/robot.jpg">
+					<h1 style="
+						color:white;
+						text-shadow: 1px 1px 10px black;
+					">DIY APIs</h1>
+					<h3 style="
+						color:white;
+						text-shadow: 1px 1px 10px black;
+					">A Do-It-Yourself Approach To <br /> 
+					Creating Custom Read-Only APIs <br />
+					Using Sierra SQL and PHP
+					</h3>
+					<p>
+						<small style="
+						color:white;
+						text-shadow: 1px 1px 10px black;
+						">Ray Voelker<br />
+						University of Dayton Libraries
+						</small>
+					</p>
+							
+					<aside class="notes">
+					
+						“Welcome to the Ohio Polaris Users Group and Eastern Great Lakes Innovative Users Group!
+						...
+						”
+					</aside>
+				</section>	
+				<!-- /SLIDE 1 -->
+				<!-- /section -->
+				
+				
+				<!-- section -->
+				<!-- SLIDE 2 -->
+				<section data-background="./img/roesch_library_crop.jpg">
+					<div class="fragment" style="
+						background-color:rgba(0,0,0,0.5);
+						padding: 0px 0px 10px 0px;">
+						<h2 style="
+							color:white;
+							text-shadow: 1px 1px 10px black;
+						">Question ...</h2>
+						<h2 class="fragment" style="
+							color:white;
+							text-shadow: 1px 1px 10px black;
+						">Has anyone started to use the SQL features of Sierra?</h2>
+					</div>					
+					
+					<aside class="notes">
+					“Quick introduction; My name is Ray Voelker.<br />
+					I’m a Computer Information Systems graduate of the University of Dayton... class of 2000. <br />
+					I’ve been an employee of the Library in the IT department ever since I graduated <br />
+					(doing some easy math will tell you that I’ve been with the library for over 15 years now!)”
+					<hr>
+					“So, to start out, I’ll ask the room a question …<br />
+					Has anyone started to use the SQL features now available through Sierra? <br />
+					Anyone interested in starting to do so … maybe for displaying data to the public or patrons? Maybe for back-end or administrative purposes?”
+					</aside>
+					
+				</section>
+				<!-- /SLIDE 2 -->
+				<!-- /section> -->
+				
+				
+				<!-- section -->
+				<!-- SLIDE 3 -->
+				<section data-background="rgba(25,144,81,1.0)" style="color:white;">
+					<h3 style="color:white">Overview</h3>
+					<ol>
+						<li class="fragment">
+							What’s an API?
+						</li>
+						<li class="fragment">
+							DIY API Examples:
+							<ol>
+								<li class="fragment">Study Room Availability</li>
+								<li class="fragment">Inventory Barcode Scanning into Google Sheets</li>
+								<li class="fragment">New Books List</li>
+							</ol>
+						</li>
+						<li class="fragment">
+							Conclusions / Answer Some Questions
+						</li>
+					</ol>
+					
+					<aside class="notes">
+					“In this presentation today, I’m going to quickly go over what an API is for anyone who is unfamiliar, and a little bit about how they work”
+					<hr>
+					“I’m also going to show a few examples of what I’ve been calling DIY APIs.”
+					<br />
+					“In these examples, I’m going to show some projects that I’ve worked on that have added some features or abilities for us that were either difficult or impossible to do previously. In the examples, I’m going to show some techniques that have helped me to simplify the task of getting data out the catalog database in the form of SQL statements, and into some other thing. In two examples, that thing is a web page that formats and display data to students and patrons, and in one other example the other thing is a spreadsheet that has data fed to it from the catalog for the purpose of conducting an inventory project."
+					<hr>
+					"These three example projects are:
+					"Study Room Availability : Display study rooms available to students to check out and use … especially useful for students to see during busy times when the rooms are in high demand"
+					<br />
+					"Inventory Barcode Scanning into Google Sheets : This was a very important feature for us, and it allowed us to quickly and accurately scan nearly half a million item barcodes into google sheets"
+					<br />
+					"New Books List : This was one of the first SQL features I worked on. It turned out to be one of the more complex, and somewhat confusing queries in all of the projects I’ve worked on so far. I’ll do my best to properly explain the project without confusing any of you, or myself in the process."
+
+					<hr>
+					“I’ll try to leave time at the end for some questions about this, and also explain some of the limitations and pitfalls as well.”
+
+					</aside>
+				</section>
+				<!-- /SLIDE 3 -->
+				<!-- /section -->
+				
+				
+				<!-- section -->
+				<!-- SLIDE 4 -->
+				<section data-background="rgba(0,130,202,1.0)" style="color:white">
+					<section>
+						<h3 style="color:white;">What is an API?</h3>
+						<p class="fragment" style="text-align:left;">
+						In computer programming ... 
+						<br />
+						<b>Application Programming Interface</b>
+						<br />
+						... <b><u>A good API makes it easier to 
+						develop a program by providing all the building blocks. A programmer 
+						then puts the blocks together.</u></b>
+						<br />
+						source: https://en.wikipedia.org/wiki/Application_programming_interface
+						</p>
+						
+						<aside class="notes">
+							In computer programming, an <b>application programming interface</b> (API) 
+							is a set of routines, protocols, and tools for building software 
+							applications. An API expresses a software component in terms of its
+							operations, inputs, outputs, and underlying types. An API defines
+							functionalities that are independent of their respective 
+							implementations, which allows definitions and implementations to vary
+							without compromising the interface. <b><u>A good API makes it easier to 
+							develop a program by providing all the building blocks. A programmer 
+							then puts the blocks together.</u></b><br />
+						</aside>
+						
+					</section>
+					
+					<section>
+						<h3 style="color:white;">What is a RESTful API?</h3>
+						<p class="fragment" style="text-align:left;">
+							<b>Representational State Transfer</b> is a software 
+							architecture style for building scalable web services. 
+							<br />
+							...
+							<br />
+							communicate over the Hypertext Transfer Protocol with the same HTTP verbs 
+							(GET, POST, PUT, DELETE, etc.) which web browsers use to retrieve web 
+							pages and to send data to remote servers. 
+							<br />
+							source: https://en.wikipedia.org/wiki/Representational_state_transfer
+						</p>
+						
+						<aside class="notes">
+						<b>Representational State Transfer</b> is a software 
+							architecture style for building scalable web services. <br />
+							… <br />
+							RESTful systems typically, but not always, communicate over the 
+							Hypertext Transfer Protocol with the same HTTP verbs 
+							(GET, POST, PUT, DELETE, etc.) which web browsers use to retrieve web 
+							pages and to send data to remote servers. <br />
+						</aside>
+						
+					</section>
+					
+					<section>
+						<h3 style="color:white;">What is it really?!</h3>
+						
+						<p class="fragment" style="text-align:left;">
+						A technique using HTTP requests to get data out of the Sierra Database 
+						quickly, and easily. The data we get out is in a format that can be readily 
+						used by a wide range of <i>other applications.</i>
+						</p>
+					</section>
+					
+					<section>
+						<p style="text-align:left;">http://library2.udayton.edu/api/getInventoryData/item_barcode.php?<b>barcode</b>=<b>R701498024</b></p>
+						
+						<pre class="fragment"><code data-trim>
+{
+    "call_number_norm": "PS 3553 R48 S6 1993",
+    "location_code": "rws",
+    "item_status_code": "-",
+    "best_title": "Sphere : a novel",
+    "due_gmt": "2015-12-29 04:00:00-05",
+    "inventory_gmt": "2007-02-22 14:44:38-05"
+}											
+						</code></pre>
+						
+						<video data-autoplay class="fragment" src="./img/sheet_input_1.mp4" controls loop muted></video>
+					
+					</section>
+				
+				</section>
+				<!-- /SLIDE 4 -->
+				<!-- /SECTION -->
+								
+								
+				<!-- SECTION -->
+				<!-- SLIDE 5 -->
+				<section>
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<img alt="1" style="border:0;" src="./img/restful_1.png">
+					</section>
+					
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<img alt="2" style="border:0;" src="./img/restful_2.png">
+					</section>
+					
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<img alt="3" style="border:0;" src="./img/restful_3.png">
+					</section>
+					
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<img alt="4" style="border:0;" src="./img/restful_4.png">
+					</section>
+					
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<img alt="5" style="border:0;" src="./img/restful_5.png">
+					</section>
+				</section>
+				<!-- /SLIDE 5 -->
+				<!-- /SECTION -->
+				
+				
+				<!-- SECTION -->
+				<!-- SLIDE 6 -->
+				<section>
+				
+					<section>
+						<h3>My Recipe For A DIY RESTful API</h3>
+						<div class="fragment">
+							<h3 style="text-align:left">1. <u>K</u>eep <u>I</u>t <u>S</u>imple <u>S</u>tupid</h3>
+							<img alt="KISS logo" style="border:0;" src="./img/kiss_logo.png">
+						</div>
+					</section>
+					
+					<section>
+						<h3 style="text-align:left">2. Create (or use) as simple of an SQL query as possible.</h3>
+						<img alt="https://xkcd.com/1349/" style="border:0;" src="./img/shouldnt_be_hard.png">
+						<p>https://xkcd.com/1349/</p>
+					</section>
+					
+					<section>
+						<h3 style="text-align:left">3. Keep your inputs(if any) simple and limited. Sanitize any inputs!</h3>
+						<img alt="https://xkcd.com/327/" style="border:0;" src="./img/exploits_of_a_mom.png">
+						<p>https://xkcd.com/327/</p>
+					</section>
+					
+					<section>
+						<h3 style="text-align:left">4. Connect to database server, prepare the SQL statement, issue query, and get results.</h3>					
+						<h3 class="fragment" style="text-align:left">5. Prepare and encode results into JSON (or JSONP) format, and return them over HTTP.</h3>
+						<video class="fragment" data-autoplay loop controls muted src="./img/delivery.mp4"></video>
+					</section>
+					
+				</section>
+				<!-- /SECTION -->
+
+				
+				<!-- SECTION -->
+				<section data-background="rgba(206,17,65,1.0)" style="color:white">
+					<h3 style="color:white">Example #1 <br />Study Room Availability</h3>
+					
+					<aside class="notes">
+					EXAMPLE 1) <br />
+					Study Room Availability
+					<hr>
+					We wanted some way to display live to students a web page of study rooms available to them, and if they were in use currently, when they might become available again. Since each one of the study rooms are stored in our system as an item, and have specific item codes, the search for them is fairly easy in the database.  Also, since the search should be the same every time, there is no need to take inputs from the query string (the part after the URL where we encode key/value pairs) which makes this a good first example. The only argument we should have to send it is the callback function name.
+					</aside>
+					
+				</section>
+				<!-- /SECTION -->
+				
+				
+				<!-- section -->
+				<section>
+					<section>
+					<h3>Study Room Availability Sierra SQL</h3>
+					<pre><code data-trim>
+SELECT 
+i.item_status_code, 
+c.checkout_gmt, 
+c.due_gmt, 
+p.best_title, 
+p.best_title_norm 
+
+--- continued ... ---
+</code></pre>
+					</section>
+					
+					<section>
+					<h3>Study Room Availability Sierra SQL (cont'd)</h3>
+					<pre><code data-trim>
+FROM 
+sierra_view.item_record						AS i
+					
+LEFT OUTER JOIN sierra_view.checkout				AS c 
+ON (i.record_id = c.item_record_id) 					
+					
+LEFT OUTER JOIN sierra_view.bib_record_item_record_link		AS l 
+ON (i.record_id = l.item_record_id) 
+
+JOIN sierra_view.bib_record					AS b 
+ON (l.bib_record_id = b.record_id) 
+
+JOIN sierra_view.bib_record_property				AS p 
+ON (b.record_id = p.bib_record_id) 
+
+--- continued ... ---
+				</code></pre>
+				</section>
+
+				<section>
+				<h3>Study Room Availability Sierra SQL (cont'd)</h3>
+				<pre><code data-trim>
+WHERE 
+(i.itype_code_num = 69 OR i.itype_code_num = 71)  
+AND i.is_suppressed = FALSE 
+AND b.is_suppressed = FALSE 
+
+ORDER BY 
+p.best_title_norm ASC 
+---					
+					</code></pre>
+					</section>
+				
+				</section>
+				<!-- /section -->
+				
+				
+				<section>
+					<section>
+						<h3>PHP Implementation of the RESTful API</h3>
+						<h4>Code Samples</h4>
+						
+						<p style="text-align:left"> 
+						Sanitize inputs
+						</p>
+						
+						
+						<pre><code data-trim>
+&lt;?php
+/* replace all the non alphanumeric characters from the
+callback function name */
+if(isset( $_GET['callback'] )) {
+	$callback = preg_replace("/[^a-zA-Z0-9\s]/", 
+		"", 
+		$_GET['callback']
+	);
+}
+?>
+						</code></pre>
+					</section>
+					
+					<section>
+					<h3>PHP Implementation of the RESTful API</h3>
+					<h4>Code Samples (cont'd)</h4>
+					
+					<p style="text-align:left">Connect to database server, prepare the SQL statement, issue query, and get results.</p>
+					<pre><code data-trim>
+&lt;?php
+try {
+	$connection = new PDO($dsn, $username, $password);
+}
+
+// ...
+
+$statement = $connection->prepare($sql);
+$statement->execute();
+$row = $statement->fetchAll(PDO::FETCH_ASSOC);
+?>
+					</code></pre>
+					</section>
+					
+					
+					<section>
+						<h3>PHP Implementation of the RESTful API</h3>
+						<h4>Code Samples (cont'd)</h4>
+						<p style="text-align:left"> 
+						Encode results into JSON (or JSONP) format, and return them over HTTP
+						</p>
+						<pre><code data-trim>
+&lt;?php
+/* return JSONP data if a callback name was specified, 
+otherwise return plain JSON data */
+if(isset ($callback)) {
+	header('Content-Type: text/javascript; charset=utf8');
+	echo $callback . '(' . json_encode($row) . ')';
+}
+else {
+	header('Content-Type: application/json; charset=utf8'); 
+	echo json_encode($row);
+}
+?>
+					</code></pre>
+					</section>
+					
+					
+				</section>
+
+				<!-- section -->
+				<section>
+					<section>
+					<h3>Study Room Availability Output</h3>
+					<p>(Sample JSON object)</p>
+					<pre><code data-trim>
+[
+	{
+			"item_status_code": "-",
+			"checkout_gmt": null,
+			"due_gmt": null,
+			"best_title": "Study Room 2 - A",
+			"best_title_norm": "study room 2 a",
+			"available": true
+	},
+	{
+			"item_status_code": "-",
+			"checkout_gmt": "2015-08-31 16:09:14-04",
+			"due_gmt": "2015-08-31 17:45:00-04",
+			"best_title": "Study Room 2 - B",
+			"best_title_norm": "study room 2 b",
+			"available": false
+	}
+]
+					</code></pre>
+					</section>
+					
+					<section>
+					<h3>Study Room Availability Output</h3>
+					<p>(Sample JSONP object)</p>
+					<pre><code data-trim>
+callback([
+	{
+			"item_status_code": "-",
+			"checkout_gmt": null,
+			"due_gmt": null,
+			"best_title": "Study Room 2 - A",
+			"best_title_norm": "study room 2 a",
+			"available": true
+	},
+	{
+			"item_status_code": "-",
+			"checkout_gmt": "2015-08-31 16:09:14-04",
+			"due_gmt": "2015-08-31 17:45:00-04",
+			"best_title": "Study Room 2 - B",
+			"best_title_norm": "study room 2 b",
+			"available": false
+	}
+])
+					</code></pre>
+					</section>
+					
+					
+					</section>				
+				
+				<!-- SECTION -->
+				<section>
+					<h3>Study Room Availability Sample Web Page</h3>
+					<p>(after JavaScript calls RESTful API, and processes the data)</p>
+					<img alt="study room web page" style="border:0;" src="./img/study_room_web.png">
+					<p>The sample HTML and JavaScript are available for download in the presentation notes</p>
+				</section>
+				<!-- /SECTION -->
+				
+				
+				<!-- SECTION -->
+				<section data-background="rgba(242,106,43,1.0)" style="color:white">
+					<h3 style="color:white">Example #2 <br />Inventory Barcode Scanning into Google Sheets</h3>
+					
+					<aside class="notes">
+					EXAMPLE 2).
+					<hr>
+					Inventory Barcode Scanning into Google Sheets
+					<hr>
+					This particular RESTful API was probably the most important for the inventory project that we started this summer. It allowed us to send several students into the stacks with off the shelf scanners and laptops and scan almost half a million items into Google Spreadsheets over the course of a few months. Using this mething we were able to quickly and efficiently conduct an inventory of the physical items in our library -- finding and moving items that were very out of place, fix books with incorrect statuses like “on search”, “missing”, and “lost and paid for”, and generally get a handle on the state of the physical collection.
+					</aside>
+				</section>
+				<!-- /SECTION -->
+				
+				
+				<!-- SECTION -->
+				<section>
+					<h3>Inventory Barcode Sierra SQL</h3>
+					<pre><code data-trim>
+SELECT 
+upper(p.call_number_norm || 
+	COALESCE(' ' || v.field_content, '')
+) as call_number_norm, 
+i.location_code, 
+i.item_status_code, 
+i.inventory_gmt,
+b.best_title, 
+c.due_gmt
+
+FROM 
+sierra_view.phrase_entry                AS e 
+
+JOIN 
+sierra_view.item_record_property        AS p 
+ON 
+  e.record_id = p.item_record_id 
+
+  JOIN sierra_view.item_record          AS i 
+ON 
+  i.id = p.item_record_id 
+
+LEFT OUTER JOIN sierra_view.checkout    AS c 
+ON 
+  i.id = c.item_record_id 
+
+--these two JOIN statements will get the 
+-- Title and Author from the bib
+JOIN 
+sierra_view.bib_record_item_record_link	AS l 
+ON 
+  l.item_record_id = e.record_id 
+JOIN 
+sierra_view.bib_record_property         AS b 
+ON 
+  l.bib_record_id = b.bib_record_id 
+   
+LEFT OUTER JOIN 
+sierra_view.varfield                    AS v 
+ON 
+  (i.id = v.record_id) AND (v.varfield_type_code = 'v')
+
+WHERE 
+e.index_tag || e.index_entry = 'b' || UPPER('r701498024')
+OR 
+e.index_tag || e.index_entry = 'b' || LOWER('r701498024')
+					</code></pre>
+				</section>
+				<!-- /SECTION -->
+				
+				
+				<!-- SECTION -->
+				<section>
+					<h3>PHP Implementation of the RESTful API</h3>
+					<ul>
+						<li class="fragment">
+							Much of the code is <u>the same</u> from the first example!
+						</li>
+						<li class="fragment">
+							The only input parameter for this RESTful API is the item <span style="color:#CC9393">barcode</span>
+							<ul>
+								<li class="fragment">
+									We "sanitize" this input based upon our library <span style="color:#CC9393">barcode</span> length: 10 alphanumeric characters (no punctuation or symbols) in our case
+								</li>
+							</ul>
+						</li>
+
+						<li class="fragment">
+							This particular API is only going to be use in <span data-trim style="color:#673ab7">Google Apps Scripting</span> which will utilize the JSON object we return
+							<ul>
+								<li class="fragment">
+									A <span data-trim style="color:#673ab7">Google Apps Scripting API</span> ( <span style="color:#7F9F7F;">UrlFetchApp.fetch()</span> ) calling our custom RESTful API!
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<!-- /SECTION -->
+				
+				<!-- SECTION -->
+				<section>
+					<h3>RESTful API - Inventory Barcode In Action</h3>
+					<video class="fragment" data-autoplay controls loop muted> 
+						<source src="./img/scanning.mp4" type="video/mp4">
+					</video>
+				</section>
+				<!-- /SECTION -->
+				
+				
+				<!-- SECTION -->
+				<section data-background="rgba(209,205,184,1.0)" style="color:white">
+					<h3 style="
+						color:white; 
+						text-shadow: 1px 1px 10px black;
+					">Example #3 <br />New Books List</h3>
+					
+					<aside class="notes">
+					New Books List
+					The new books list is probably the most complicated of the 3 examples. The SQL query is difficult for several reason. First, there are 6 tables that we need to do a join on to get the data that we need to generate the list which can make the query slow. Secondly, the query is difficult to construct since we’re working with dates, and a field -- call_number_prefix -- that may be null. 
+
+					Also, only looking at the field call_number_norm --which is indexed from the item-- will exclude all electronic resources from the list since they do not have item records. Unless that’s what is desired, we have to look at the field bib_record_call_number_prefix which is indexed from (obviously) the bib record. This may produce a great number of results, which is again, slow to load.
+					</aside>
+				</section>
+				<!-- /SECTION -->
+				
+				<section>
+					<h3>New Books List Sierra SQL</h3>
+					<pre><code data-trim>
+SELECT 
+b.record_id, 
+b.cataloging_date_gmt::DATE AS cataloging_date_gmt, 
+p.best_author, 
+p.best_title, 
+p.publish_year, 
+r.record_num, 
+UPPER( 
+	x.call_number_prefix 
+) as call_number_prefix, 
+UPPER( 
+	COALESCE (i.call_number_norm, x.call_number_prefix) 
+) as call_number_norm 
+
+FROM 
+sierra_view.bib_record                    	AS b 
+JOIN 
+sierra_view.record_metadata                	AS r 
+  ON r.id = b.record_id 
+LEFT OUTER JOIN 
+sierra_view.bib_record_call_number_prefix	AS x 
+  ON x.bib_record_id = b.record_id 
+LEFT OUTER JOIN 
+sierra_view.bib_record_property           	AS p 
+  ON p.bib_record_id = b.record_id 
+LEFT OUTER JOIN 
+sierra_view.bib_record_item_record_link    	AS l     
+  ON l.bib_record_id = b.record_id 
+LEFT OUTER JOIN 
+sierra_view.item_record_property		AS i 
+  ON l.item_record_id = i.item_record_id 
+
+WHERE        
+b.cataloging_date_gmt >= date('07-01-2015')  
+AND b.cataloging_date_gmt <  date('08-31-2015')  
+AND b.is_suppressed is FALSE 
+
+--if we want to do any call number limiting ... 
+-- we can use this part of the where clause 
+-- AND x.call_number_prefix LIKE LOWER('A') 
+
+GROUP BY 
+b.record_id, 
+cataloging_date_gmt, 
+p.best_author, 
+p.best_title, 
+p.publish_year, 
+r.record_num, 
+call_number_prefix, 
+call_number_norm 
+
+ORDER BY 
+call_number_prefix, 
+call_number_norm
+				
+				</code></pre>
+				</section>
+				
+
+			</div> <!-- /slides -->
+		</div> <!-- /reveal -->
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

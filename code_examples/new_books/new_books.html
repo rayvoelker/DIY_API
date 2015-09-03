@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>UD Libraries New Books</title>
+		<script src="./new_books.js"></script>
+	</head>
+	
+	<body>
+		<h1>University of Dayton Roesch Library</h1>
+		<h3>New Books in the Last 30 Days <span id="extra_info"></span></h3>
+		
+		<br />
+		
+		<select id="select" name="call_prefix">
+			<option value="ALL" selected="selected">ALL</option>
+		</select>
+		
+		<br />
+		
+		<hr>
+		
+		<div id="output">Loading ...</div>
+			
+		<script>
+			//build out the select with additional options
+			buildSelect();
+		</script>
+		<script src="http://library2.udayton.edu/api/newbooks.php?callback=newbooks"></script>
+	</body>
+</html>

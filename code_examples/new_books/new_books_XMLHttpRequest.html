@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>UD Libraries New Books</title>
+		<script src="./new_books_XMLHttpRequest.js"></script>
+	</head>
+	
+	<body>
+		<h1>University of Dayton Roesch Library</h1>
+		<h3>New Books in the Last 30 Days <span id="extra_info"></span></h3>
+		
+		<br />
+		
+		<select id="select" name="call_prefix">
+			<option value="ALL" selected="selected">ALL</option>
+		</select>
+		
+		<br />
+		
+		<hr>
+		
+		<div id="output">Loading ...</div>
+		
+		
+		<script>
+			var lc = {"_comment":"This is a draft of Library of Congress Classifications represented in JSON format.","classifications":[{"letter":"A","title":"GENERAL WORKS"},{"letter":"B","title":"PHILOSOPHY. PSYCHOLOGY. RELIGION"},{"letter":"C","title":"AUXILIARY SCIENCES OF HISTORY"},{"letter":"D","title":"WORLD HISTORY AND HISTORY OF EUROPE, ASIA, AFRICA, AUSTRALIA, NEW ZEALAND, ETC."},{"letter":"E","title":"HISTORY OF THE AMERICAS"},{"letter":"F","title":"HISTORY OF THE AMERICAS"},{"letter":"G","title":"GEOGRAPHY. ANTHROPOLOGY. RECREATION"},{"letter":"H","title":"SOCIAL SCIENCES"},{"letter":"J","title":"POLITICAL SCIENCE"},{"letter":"K","title":"LAW"},{"letter":"L","title":"EDUCATION"},{"letter":"M","title":"MUSIC AND BOOKS ON MUSIC"},{"letter":"N","title":"FINE ARTS"},{"letter":"P","title":"LANGUAGE AND LITERATURE"},{"letter":"Q","title":"SCIENCE"},{"letter":"S","title":"AGRICULTURE"},{"letter":"T","title":"TECHNOLOGY"},{"letter":"U","title":"MILITARY SCIENCE"},{"letter":"V","title":"NAVAL SCIENCE"},{"letter":"Z","title":"BIBLIOGRAPHY. LIBRARY SCIENCE. INFORMATION RESOURCES (GENERAL)"}]},
+				api_base_url = 'http://library2.udayton.edu/api/newbooks.php?',
+				select = document.getElementById('select');
+			for ( var i in lc.classifications ){
+				var option = document.createElement('option');
+				option.value = lc.classifications[i].letter;
+				option.innerHTML = lc.classifications[i].letter + ' : ' + lc.classifications[i].title;
+				select.appendChild(option);
+			}
+
+			var option = document.createElement('option');
+			option.value = 'null';
+			option.innerHTML = 'NON-CLASSIFIED';
+			select.appendChild(option);
+
+			select.addEventListener("change", function() {
+				blankOutput();
+				getJSON(api_base_url + '&call_number_prefix=' + this.value, function(data) {
+					newbooks(data);
+				}, function(status) {
+					console.log('something broke');
+				});
+			});
+		</script>
+	</body>
+</html>
