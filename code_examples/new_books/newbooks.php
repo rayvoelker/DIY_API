@@ -1,5 +1,4 @@
 <?php
-
 /*
 // 
 // Ray Voelker
@@ -140,7 +139,7 @@ AND b.is_suppressed is FALSE
 ';
 
 if($call_number_prefix) {
-	$sql .= 'AND x.call_number_prefix LIKE LOWER(\'' . $call_number_prefix . '\')';
+	$sql .= 'AND x.call_number_prefix LIKE LOWER(\'' . $call_number_prefix . '%\')';
 }
 else if( $call_number_prefix_sql ) {
 	$sql .= $call_number_prefix_sql;	

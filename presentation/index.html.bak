@@ -724,9 +724,15 @@ call_number_norm
 				
 				
 				<section>
-					<h3>PHP Implementation of the New Books RESTful API</p>
+					<h3>PHP Implementation of the New Books RESTful API</h3>
 				</section>
+
 				
+				
+				<section>
+					<h3>New Books List Sample Web Page</h3>
+					<p>( after JavaScript calls RESTful API, and processes the data ) </p>
+				</section>
 				
 				
 				
@@ -734,9 +740,8 @@ call_number_norm
 				<div style="
 					background:rgba(255,255,255,0.7);
 				">
-				<p>
-					This presentation along with all samples can be found on GitHub! <br />
-					<a href="https://github.com/rayvoelker/DIY_API">https://github.com/rayvoelker/DIY_API</a>
+					<p>This presentation, along with all samples, can be found on GitHub!</p> 
+					<p><a href="https://github.com/rayvoelker/DIY_API">https://github.com/rayvoelker/DIY_API</a></p>
 				</p>
 				
 				</div>
