@@ -26,6 +26,8 @@ if ( isset($_GET['barcode']) )  {
 	$barcode = preg_replace("/[^a-zA-Z0-9\s]/", "", $_GET['barcode']);
 }
 else{
+	//send an empty object and then quit the script
+	echo "{}";
 	die();
 }
 

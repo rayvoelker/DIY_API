@@ -379,7 +379,7 @@ p.best_title_norm ASC
 				
 				<section>
 					<section>
-						<h3>PHP Implementation of the RESTful API</h3>
+						<h3>PHP Implementation of the Study Room RESTful API</h3>
 						<h4>Code Samples</h4>
 						
 						<p style="text-align:left"> 
@@ -402,7 +402,7 @@ if(isset( $_GET['callback'] )) {
 					</section>
 					
 					<section>
-					<h3>PHP Implementation of the RESTful API</h3>
+					<h3>PHP Implementation of the Study Room RESTful API</h3>
 					<h4>Code Samples (cont'd)</h4>
 					
 					<p style="text-align:left">Connect to database server, prepare the SQL statement, issue query, and get results.</p>
@@ -423,7 +423,7 @@ $row = $statement->fetchAll(PDO::FETCH_ASSOC);
 					
 					
 					<section>
-						<h3>PHP Implementation of the RESTful API</h3>
+						<h3>PHP Implementation of the Study Room RESTful API</h3>
 						<h4>Code Samples (cont'd)</h4>
 						<p style="text-align:left"> 
 						Encode results into JSON (or JSONP) format, and return them over HTTP
@@ -507,7 +507,7 @@ callback([
 					<h3>Study Room Availability Sample Web Page</h3>
 					<p>(after JavaScript calls RESTful API, and processes the data)</p>
 					<img alt="study room web page" style="border:0;" src="./img/study_room_web.png">
-					<p>The sample HTML and JavaScript are available for download in the presentation notes</p>
+					<p class="fragment">( The full sample, including the HTML, JavaScript, and RESTful API implemented in PHP are available for download from my GitHub linked later in this presentation )</p>
 				</section>
 				<!-- /SECTION -->
 				
@@ -599,7 +599,7 @@ e.index_tag || e.index_entry = 'b' || LOWER('r701498024')
 						</li>
 
 						<li class="fragment">
-							This particular API is only going to be use in <span data-trim style="color:#673ab7">Google Apps Scripting</span> which will utilize the JSON object we return
+							This particular API is only going to be used in <span data-trim style="color:#673ab7">Google Apps Scripting</span> which will utilize the JSON object we return
 							<ul>
 								<li class="fragment">
 									A <span data-trim style="color:#673ab7">Google Apps Scripting API</span> ( <span style="color:#7F9F7F;">UrlFetchApp.fetch()</span> ) calling our custom RESTful API!
@@ -614,10 +614,20 @@ e.index_tag || e.index_entry = 'b' || LOWER('r701498024')
 				<section>
 					<h3>RESTful API - Inventory Barcode In Action</h3>
 					<video class="fragment" data-autoplay controls loop muted> 
-						<source src="./img/scanning.mp4" type="video/mp4">
+						<source data-src="./img/live_barcode_scanning.mp4" type="video/mp4">
 					</video>
 				</section>
 				<!-- /SECTION -->
+				
+				
+				<section>
+					<h3>Inventory Barcode Scanning into Google Sheets</h3>
+					<hr>
+					<p style="text-align:left">( The full sample, including the HTML, JavaScript, and RESTful API implemented in PHP are available for download from my GitHub linked later in this presentation )</p>
+				</section>
+				
+				
+				
 				
 				
 				<!-- SECTION -->
@@ -635,6 +645,22 @@ e.index_tag || e.index_entry = 'b' || LOWER('r701498024')
 					</aside>
 				</section>
 				<!-- /SECTION -->
+				
+				
+				<section>
+					<h3>New Books List Overview</h3>
+					<p class="fragment" style="text-align:left">Shows items to the public that were cataloged in the last 30 days</p>
+					<p class="fragment" style="text-align:left">Allows patrons to limit the output based on classification (Library of Congress)</p>
+					
+					<div class="fragment">
+						<hr>
+						<p style="text-align:left">May want to add the ability for patrons to "subscribe" to the new books list through e-mail ... sending them only the classifications they may be interested in</p>
+					</div>
+				
+				</section>
+				
+				
+				
 				
 				<section>
 					<h3>New Books List Sierra SQL</h3>
@@ -693,8 +719,27 @@ call_number_norm
 ORDER BY 
 call_number_prefix, 
 call_number_norm
-				
 				</code></pre>
+				</section>
+				
+				
+				<section>
+					<h3>PHP Implementation of the New Books RESTful API</p>
+				</section>
+				
+				
+				
+				
+				<section data-background="./img/fin.jpg">
+				<div style="
+					background:rgba(255,255,255,0.7);
+				">
+				<p>
+					This presentation along with all samples can be found on GitHub! <br />
+					<a href="https://github.com/rayvoelker/DIY_API">https://github.com/rayvoelker/DIY_API</a>
+				</p>
+				
+				</div>
 				</section>
 				
 
