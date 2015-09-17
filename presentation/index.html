@@ -649,7 +649,7 @@ e.index_tag || e.index_entry = 'b' || LOWER('r701498024')
 				
 				<section>
 					<h3>New Books List Overview</h3>
-					<p class="fragment" style="text-align:left">Shows items to the public that were cataloged in the last 30 days</p>
+					<p class="fragment" style="text-align:left">Show items to the public that were cataloged in the last 30 days</p>
 					<p class="fragment" style="text-align:left">Allows patrons to limit the output based on classification (Library of Congress)</p>
 					
 					<div class="fragment">
@@ -724,15 +724,69 @@ call_number_norm
 				
 				
 				<section>
-					<h3>PHP Implementation of the New Books RESTful API</h3>
+					<section>
+						<h3>PHP Implementation of the New Books RESTful API</h3>
+						<p class="fragment">Again, mostly the same code as the previous two examples!</p>						
+					</section>
+					
+					<section>
+						<h3>PHP Implementation of the New Books RESTful API</h3>
+						<p style="text-align:left">Sanitize inputs</p>
+						<pre><code data-trim>
+&lt;?PHP						
+if(isset( $_GET['call_number_prefix'] )) {
+	// call number prefix can be at most 3 characters, and must 
+	// only consist of letters
+	// ... unless we are requesting something else from the 
+	// prefix ... like the null values for example
+	switch($_GET['call_number_prefix']) {
+		case 'null' :
+			$call_number_prefix = null;
+			$call_number_prefix_sql = 
+				'AND x.call_number_prefix is null';
+			break;
+		case 'all' :
+		case 'ALL' :
+		case 'All' :
+			break;
+		default :
+			$call_number_prefix = substr( 
+				preg_replace("/[^a-zA-Z\s]/", 
+					"", 
+					$_GET['call_number_prefix']), 
+				0,3
+			);
+			break;
+	} //end switch
+	
+} //end if
+else{
+	$call_number_prefix = null;
+	$call_number_prefix_sql = null;
+}	//end else
+?>
+						</code></pre>
+					</section>
+					
 				</section>
 
 				
 				
 				<section>
-					<h3>New Books List Sample Web Page</h3>
-					<p>( after JavaScript calls RESTful API, and processes the data ) </p>
-					<img data-src="">
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<h3>New Books List Sample Web Page</h3>
+						<img style="border:0;" data-src="./img/newbooks_web1.png">
+					</section>
+					
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<h3>New Books List Sample Web Page</h3>
+						<img style="border:0;" data-src="./img/newbooks_web1.5.png">
+					</section>
+					
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<h3>New Books List Sample Web Page</h3>
+						<img style="border:0;" data-src="./img/newbooks_web2.png">
+					</section>
 				</section>
 				
 				
