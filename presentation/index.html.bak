@@ -452,7 +452,7 @@ else {
 					<section>
 					<h3>Study Room Availability Output</h3>
 					<p>(Sample JSON object)</p>
-					<pre><code data-trim>
+					<pre class="stretch"><code data-trim>
 [
 	{
 			"item_status_code": "-",
@@ -477,7 +477,7 @@ else {
 					<section>
 					<h3>Study Room Availability Output</h3>
 					<p>(Sample JSONP object)</p>
-					<pre><code data-trim>
+					<pre class="stretch"><code data-trim>
 callback([
 	{
 			"item_status_code": "-",
@@ -525,6 +525,13 @@ callback([
 					</aside>
 				</section>
 				<!-- /SECTION -->
+				
+				
+				<section>
+					<h3>Inventory Barcode Scanning into Google Sheets Overview</h3>
+					<p class="fragment" style="text-align:left;">For an inventory project, we create Google Spreadsheets, share them with students, and then have them scan item bar codes into them</p>
+					<p class="fragment" style="text-align:left;">Google Apps Scripts allow us to transfer data into the sheet via our DIY API call, triggered on the insertion of bar codes</p>					
+				</section>
 				
 				
 				<!-- SECTION -->
@@ -584,7 +591,7 @@ e.index_tag || e.index_entry = 'b' || LOWER('r701498024')
 				
 				<!-- SECTION -->
 				<section>
-					<h3>PHP Implementation of the RESTful API</h3>
+					<h3>PHP Implementation of the Inventory Data RESTful API</h3>
 					<ul>
 						<li class="fragment">
 							Much of the code is <u>the same</u> from the first example!
@@ -610,6 +617,89 @@ e.index_tag || e.index_entry = 'b' || LOWER('r701498024')
 				</section>
 				<!-- /SECTION -->
 				
+				
+				<section>
+					<section>
+						<h3>Google Apps Script</h3>
+						<p>The Application, in this example, that is calling our DIY API is Google Apps Script</p>
+					</section>
+					
+					<section>
+						<h3>Google Apps Script</h3>
+						<p>Quick look at the the Google Apps Script for Google Sheets</p>
+						
+						<pre class="stretch"><code>
+function onEdit(e) {
+  var sheet = SpreadsheetApp.getActiveSheet();
+	
+  // cell must have a value, be only one row, and be from the first sheet */
+  if( e.range.getValue() && (e.range.getNumRows() == 1) && sheet.getIndex() == 1) {
+    var value = e.range.getValue(),
+        spread_sheet_name = SpreadsheetApp.getActiveSpreadsheet().getName();
+    e.range.setValue(value.toLowerCase());
+
+    var url = 'http://library2.udayton.edu/api/getInventoryData/item_barcode.php?'
+      + 'barcode=' + value;
+    var result = UrlFetchApp.fetch(url);  
+    var json_data = JSON.parse(result.getContentText());
+    
+    //make sure we have data back ...
+    if(json_data) {
+      if (json_data.call_number_norm) {
+        e.range.offset(0,1).setValue('=\"' 
+				 + json_data.call_number_norm.toUpperCase() 
+				 + '\"');
+      }
+      //escape all double quotes
+      if (json_data.best_title) {
+        e.range.offset(0,2).setValue('=\"' 
+				 + json_data.best_title.replace(/"/g, '""') 
+				 + '\"');
+      }
+      e.range.offset(0,3).setValue('=\"' 
+			 + json_data.location_code 
+			 + '\"');
+      e.range.offset(0,4).setValue('=\"' 
+			 + json_data.item_status_code 
+			 + '\"');
+    }
+    
+    if(json_data.due_gmt != null) {
+      e.range.offset(0,5).setValue('=\"' 
+			 + json_data.due_gmt.substring(0, json_data.due_gmt.length - 3) 
+			 + '\"');
+    }
+    else {
+      e.range.offset(0,5).setValue('=\"\"');
+    }
+    
+    e.range.offset(0,6).setValue('=\"' 
+		 + Utilities.formatDate(new Date(), "GMT-4:00", "yyyy-MM-dd' 'HH:mm:ss") 
+		 + '\"');
+    e.range.offset(0,7).setValue(e.range.getRow());
+    e.range.offset(0,8).setValue(spread_sheet_name);
+    
+  } //end if
+} //end function onEdit()
+						</code></pre>
+					</section>
+					
+					<section>
+						<h3>Google Apps Script</h3>
+						<p style="text-align:left">Adding the Google Apps Script to the Google Spreadsheet ...</p>		
+					</section>
+						
+					<section>
+						<video data-autoplay controls loop muted> 
+							<source data-src="./img/google_sheets_adding_script.mp4" type="video/mp4">
+						</video>
+					</section>
+						
+						
+				</section>
+
+
+					
 				<!-- SECTION -->
 				<section>
 					<h3>RESTful API - Inventory Barcode In Action</h3>
@@ -776,6 +866,11 @@ else{
 					<section data-transition-speed="fast" data-transition="fade-in">
 						<h3>New Books List Sample Web Page</h3>
 						<img style="border:0;" data-src="./img/newbooks_web1.png">
+					</section>
+					
+					<section data-transition-speed="fast" data-transition="fade-in">
+						<h3>New Books List Sample Web Page</h3>
+						<img style="border:0;" data-src="./img/newbooks_web1.5.png">
 					</section>
 					
 					<section data-transition-speed="fast" data-transition="fade-in">
