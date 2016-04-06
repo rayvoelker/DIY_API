@@ -107,6 +107,7 @@ $encode_array = [];
 $encode_array['description'] = 'fetches info about the last ' 
 	. $records_returned . 
 	' bib records last updated in the system';
+$encode_array['source_code'] = 'https://github.com/rayvoelker/DIY_API/blob/master/code_examples/bib/last_updated.php';	
 $encode_array['data'] = $return_array;
 $encode_array['query'] = $sql;
 
