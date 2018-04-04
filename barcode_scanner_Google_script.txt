@@ -67,9 +67,10 @@ function onEdit(e) {
     }
     e.range.offset(0,6).setValue('=\"' + json_data.checkout_total + '\"');
     e.range.offset(0,7).setValue('=\"' + json_data.renewal_total + '\"');
-    e.range.offset(0,8).setValue('=\"' + json_data.record_creation_date_gmt.substring(0, json_data.record_creation_date_gmt.length - 3) + '\"');
-    e.range.offset(0,9).setValue('=\"' + json_data.rec_num + '\"');
-    e.range.offset(0,10).setValue('=\"' + json_data.brec_num + '\"');
+    e.range.offset(0,8).setValue('=\"' + json_data.year_to_date_checkout_total + '\"');
+    e.range.offset(0,9).setValue('=\"' + json_data.record_creation_date_gmt.substring(0, json_data.record_creation_date_gmt.length - 3) + '\"');
+    e.range.offset(0,10).setValue('=\"' + json_data.rec_num + '\"');
+    e.range.offset(0,11).setValue('=\"' + json_data.brec_num + '\"');
     
   } //end if
 } //end function onEdit()
