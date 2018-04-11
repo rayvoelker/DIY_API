@@ -27,7 +27,8 @@ To use this script:
 	Run: onEdit
 	Events: From spreadsheet :On edit
 	select "Save" and give proper authorization
-4. Test the sheet ... pasting this barcode into the first cell should yield results: 32405004657774
+4. In sheet1 add in the following column headers (barcode, call #, title, location, status, last checkout date, checkout total, renewal total, YTD checkout total, creation date, item #, bib #)
+5. Test the sheet ... pasting this barcode into any cell in sheet1 should yield results: 32405004657774
 */
 function onEdit(e) {
   var sheet = SpreadsheetApp.getActiveSheet();
