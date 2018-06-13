@@ -9,7 +9,6 @@
 // Cincinnati Library
 // ray.voelker@cincinnatilibrary.org 
 // ray.voelker@gmail.com
-// https://github.com/rayvoelker/DIY_API/tree/master/code_examples/inventory_project
 //  If you have any questions or comments 
 //  about this script, page or feature, please
 //  feel free to contact me.
@@ -21,14 +20,13 @@ This is a Google Apps Script intended to be used in conjunction with a RESTful A
 To use this script:
 1. Create a new Google Spreadsheet, select 
 	"Tools -> Script Editor" from the menu
-2. Copy and paste this code into the script editor (making sure to overwrite the text currently there), save it, and then select 
+2. Copy and paste this code into the script editor, save it, and then select 
 	"Edit -> Current project's triggers"
 3. Add a trigger for the onEdit() function ...
 	Run: onEdit
 	Events: From spreadsheet :On edit
 	select "Save" and give proper authorization
-4. In sheet1 add in the following column headers (barcode, call #, title, location, status, last checkout date, checkout total, renewal total, YTD checkout total, creation date, item #, bib #)
-5. Test the sheet ... pasting this barcode into any cell in sheet1 should yield results: 32405004657774
+4. Test the sheet ... pasting this barcode into the first cell should yield results: 32405004657774
 */
 function onEdit(e) {
   var sheet = SpreadsheetApp.getActiveSheet();
@@ -56,22 +54,24 @@ function onEdit(e) {
       if (json_data.best_title) {
         e.range.offset(0,2).setValue('=\"' + json_data.best_title.replace(/"/g, '""') + '\"');
       }
-      e.range.offset(0,3).setValue('=\"' + json_data.location_code + '\"');
-      e.range.offset(0,4).setValue('=\"' + json_data.item_status_code + '\"');
+      
+    e.range.offset(0,3).setValue('=\"' + json_data.best_author + '\"');
+    e.range.offset(0,4).setValue('=\"' + json_data.location_code + '\"');
+    e.range.offset(0,5).setValue('=\"' + json_data.item_status_code + '\"');
     }
     
     if(json_data.last_checkout_gmt != null) {
-      e.range.offset(0,5).setValue('=\"' + json_data.last_checkout_gmt.substring(0, json_data.last_checkout_gmt.length - 3) + '\"');
+      e.range.offset(0,6).setValue('=\"' + json_data.last_checkout_gmt.substring(0, json_data.last_checkout_gmt.length - 3) + '\"');
     }
     else {
-      e.range.offset(0,5).setValue('=\"\"');
+      e.range.offset(0,6).setValue('=\"\"');
     }
-    e.range.offset(0,6).setValue('=\"' + json_data.checkout_total + '\"');
-    e.range.offset(0,7).setValue('=\"' + json_data.renewal_total + '\"');
-    e.range.offset(0,8).setValue('=\"' + json_data.year_to_date_checkout_total + '\"');
-    e.range.offset(0,9).setValue('=\"' + json_data.record_creation_date_gmt.substring(0, json_data.record_creation_date_gmt.length - 3) + '\"');
-    e.range.offset(0,10).setValue('=\"' + json_data.rec_num + '\"');
-    e.range.offset(0,11).setValue('=\"' + json_data.brec_num + '\"');
+    e.range.offset(0,7).setValue('=\"' + json_data.checkout_total + '\"');
+    e.range.offset(0,8).setValue('=\"' + json_data.renewal_total + '\"');
+    e.range.offset(0,9).setValue('=\"' + json_data.year_to_date_checkout_total + '\"');
+    e.range.offset(0,10).setValue('=\"' + json_data.record_creation_date_gmt.substring(0, json_data.record_creation_date_gmt.length - 3) + '\"');
+    e.range.offset(0,11).setValue('=\"' + json_data.rec_num + '\"');
+    e.range.offset(0,12).setValue('=\"' + json_data.brec_num + '\"');
     
   } //end if
 } //end function onEdit()
