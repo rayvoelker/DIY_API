@@ -58,7 +58,9 @@ i.year_to_date_checkout_total,
 i.record_creation_date_gmt,
 id2reckey(i.id)||'a' as rec_num,
 id2reckey(b.bib_record_id)||'a' as brec_num,
-b.best_author
+b.best_author,
+i.last_year_to_date_checkout_total,
+b.publish_year
 FROM
 sierra_view.phrase_entry				AS e
 JOIN
