@@ -32,10 +32,13 @@ function onEdit(e) {
   var sheet = SpreadsheetApp.getActiveSheet();
   // cell must have a value, be only one row, and be from the first sheet
   
-  
-  if( e.range.getValue() && (e.range.getNumRows() == 1) && sheet.getIndex() == 1) {
-    //Logger.log( e.range.getValue() );
-    var value = e.range.getValue(),
+  for(var i=0;i<e.range.getNumRows();i++) {
+  if( e.range.offset(i,0).getValue() && /*(e.range.getNumRows() == 1) && */sheet.getIndex() == 1) {
+    
+    
+    
+    //Logger.log( e.range.offset(i,0).getValue() );
+        var value = e.range.offset(i,0).getValue(),
         spread_sheet_name = SpreadsheetApp.getActiveSpreadsheet().getName();
   //  e.range.setValue(value.toLowerCase());
     
@@ -48,32 +51,33 @@ function onEdit(e) {
     //make sure we have data back ...
     if(json_data) {
       if (json_data.call_number_norm) {
-        e.range.offset(0,1).setValue('=\"' + json_data.call_number_norm.toUpperCase() + '\"');
+        e.range.offset(i,1,1).setValue('=\"' + json_data.call_number_norm.toUpperCase() + '\"');
       }
       //escape all double quotes
       if (json_data.best_title) {
-        e.range.offset(0,2).setValue('=\"' + json_data.best_title.replace(/"/g, '""') + '\"');
+        e.range.offset(i,2,1).setValue('=\"' + json_data.best_title.replace(/"/g, '""') + '\"');
       }
       
-    e.range.offset(0,3).setValue('=\"' + json_data.best_author + '\"');
-    e.range.offset(0,4).setValue('=\"' + json_data.publish_year + '\"');
-    e.range.offset(0,5).setValue('=\"' + json_data.location_code + '\"');
-    e.range.offset(0,6).setValue('=\"' + json_data.item_status_code + '\"');
+    e.range.offset(i,3,1).setValue('=\"' + json_data.best_author + '\"');
+    e.range.offset(i,4,1).setValue('=\"' + json_data.publish_year + '\"');
+    e.range.offset(i,5,1).setValue('=\"' + json_data.location_code + '\"');
+    e.range.offset(i,6,1).setValue('=\"' + json_data.item_status_code + '\"');
     }
     
     if(json_data.last_checkout_gmt != null) {
-      e.range.offset(0,7).setValue('=\"' + json_data.last_checkout_gmt.substring(0, json_data.last_checkout_gmt.length - 3) + '\"');
+      e.range.offset(i,7,1).setValue('=\"' + json_data.last_checkout_gmt.substring(0, json_data.last_checkout_gmt.length - 3) + '\"');
     }
     else {
-      e.range.offset(0,7).setValue('=\"\"');
+      e.range.offset(i,7,1).setValue('=\"\"');
     }
-    e.range.offset(0,8).setValue('=\"' + json_data.checkout_total + '\"');
-    e.range.offset(0,9).setValue('=\"' + json_data.renewal_total + '\"');
-    e.range.offset(0,10).setValue('=\"' + json_data.year_to_date_checkout_total + '\"');
-    e.range.offset(0,11).setValue('=\"' + json_data.last_year_to_date_checkout_total + '\"');
-    e.range.offset(0,12).setValue('=\"' + json_data.record_creation_date_gmt.substring(0, json_data.record_creation_date_gmt.length - 3) + '\"');
-    e.range.offset(0,13).setValue('=\"' + json_data.rec_num + '\"');
-    e.range.offset(0,14).setValue('=\"' + json_data.brec_num + '\"');
+    e.range.offset(i,8,1).setValue('=\"' + json_data.checkout_total + '\"');
+    e.range.offset(i,9,1).setValue('=\"' + json_data.renewal_total + '\"');
+    e.range.offset(i,10,1).setValue('=\"' + json_data.year_to_date_checkout_total + '\"');
+    e.range.offset(i,11,1).setValue('=\"' + json_data.last_year_to_date_checkout_total + '\"');
+    e.range.offset(i,12,1).setValue('=\"' + json_data.record_creation_date_gmt.substring(0, json_data.record_creation_date_gmt.length - 3) + '\"');
+    e.range.offset(i,13,1).setValue('=\"' + json_data.rec_num + '\"');
+    e.range.offset(i,14,1).setValue('=\"' + json_data.brec_num + '\"');
     
-  } //end if
+    } //end if
+  } //end for
 } //end function onEdit()
