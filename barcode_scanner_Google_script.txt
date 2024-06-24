@@ -1,0 +1,83 @@
+/*
+//Jeremy Goldstein
+//Minuteman Library Network
+//jgoldstein@minlib.net
+//
+//Based on code provided by:
+//
+// Ray Voelker
+// Cincinnati Library
+// ray.voelker@cincinnatilibrary.org 
+// ray.voelker@gmail.com
+//  If you have any questions or comments 
+//  about this script, page or feature, please
+//  feel free to contact me.
+//
+*/
+
+/* 
+This is a Google Apps Script intended to be used in conjunction with a RESTful API (barcode_scanner.php)
+To use this script:
+1. Create a new Google Spreadsheet, select 
+	"Tools -> Script Editor" from the menu
+2. Copy and paste this code into the script editor, save it, and then select 
+	"Edit -> Current project's triggers"
+3. Add a trigger for the onEdit() function ...
+	Run: onEdit
+	Events: From spreadsheet :On edit
+	select "Save" and give proper authorization
+4. Test the sheet ... pasting this barcode into the first cell should yield results: 32405004657774
+*/
+function onEdit(e) {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  // cell must have a value, be only one row, and be from the first sheet
+  
+  for(var i=0;i<e.range.getNumRows();i++) {
+  if( e.range.offset(i,0).getValue() && /*(e.range.getNumRows() == 1) && */sheet.getIndex() == 1) {
+    
+    
+    
+    //Logger.log( e.range.offset(i,0).getValue() );
+        var value = e.range.offset(i,0).getValue(),
+        spread_sheet_name = SpreadsheetApp.getActiveSpreadsheet().getName();
+  //  e.range.setValue(value.toLowerCase());
+    
+    var url = 'http://staff.minlib.net/barcode_scanner.php?'
+      + 'barcode=' + value;
+    var result = UrlFetchApp.fetch(url);
+    Logger.log(result);
+    var json_data = JSON.parse(result.getContentText());
+    
+    //make sure we have data back ...
+    if(json_data) {
+      if (json_data.call_number_norm) {
+        e.range.offset(i,1,1).setValue('=\"' + json_data.call_number_norm.toUpperCase() + '\"');
+      }
+      //escape all double quotes
+      if (json_data.best_title) {
+        e.range.offset(i,2,1).setValue('=\"' + json_data.best_title.replace(/"/g, '""') + '\"');
+      }
+      
+    e.range.offset(i,3,1).setValue('=\"' + json_data.best_author + '\"');
+    e.range.offset(i,4,1).setValue('=\"' + json_data.publish_year + '\"');
+    e.range.offset(i,5,1).setValue('=\"' + json_data.location_code + '\"');
+    e.range.offset(i,6,1).setValue('=\"' + json_data.item_status_code + '\"');
+    }
+    
+    if(json_data.last_checkout_gmt != null) {
+      e.range.offset(i,7,1).setValue('=\"' + json_data.last_checkout_gmt.substring(0, json_data.last_checkout_gmt.length - 3) + '\"');
+    }
+    else {
+      e.range.offset(i,7,1).setValue('=\"\"');
+    }
+    e.range.offset(i,8,1).setValue('=\"' + json_data.checkout_total + '\"');
+    e.range.offset(i,9,1).setValue('=\"' + json_data.renewal_total + '\"');
+    e.range.offset(i,10,1).setValue('=\"' + json_data.year_to_date_checkout_total + '\"');
+    e.range.offset(i,11,1).setValue('=\"' + json_data.last_year_to_date_checkout_total + '\"');
+    e.range.offset(i,12,1).setValue('=\"' + json_data.record_creation_date_gmt.substring(0, json_data.record_creation_date_gmt.length - 3) + '\"');
+    e.range.offset(i,13,1).setValue('=\"' + json_data.rec_num + '\"');
+    e.range.offset(i,14,1).setValue('=\"' + json_data.brec_num + '\"');
+    
+    } //end if
+  } //end for
+} //end function onEdit()
